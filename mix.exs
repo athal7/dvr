@@ -6,6 +6,7 @@ defmodule DVR.MixProject do
       app: :dvr,
       version: "0.1.0",
       elixir: "~> 1.6",
+      docs: [main: "readme", extras: ["README.md"]],
       package: package(),
       start_permanent: Mix.env() == :prod,
       deps: deps()

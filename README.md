@@ -49,7 +49,7 @@ Supervisor.start_link(children, strategy: :one_for_one)
 The default interval is 1 minute, and the default ttl is 1 hour, but you can configure them as you desire:
 
 ```elixir
-children = [{DVR.Cleanup, interval_seconds: 60 * 10, ttl_seconds: 60 * 60 * 24]
+children = [{DVR.Cleanup, interval_seconds: 60 * 10, ttl_seconds: 60 * 60 * 24}]
 Supervisor.start_link(children, strategy: :one_for_one)
 ```
 
