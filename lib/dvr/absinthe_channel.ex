@@ -4,7 +4,6 @@ defmodule DVR.AbsintheChannel do
   """
 
   @required_modules [
-    Absinthe,
     Absinthe.Subscription,
     Phoenix.Channel
   ]
