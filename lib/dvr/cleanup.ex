@@ -14,8 +14,8 @@ defmodule DVR.Cleanup do
   end
 
   def run(arg) do
-    interval = Map.get(arg, :interval_seconds, @default_interval)
-    ttl = Map.get(arg, :ttl_seconds, @default_ttl)
+    interval = Keyword.get(arg, :interval_seconds, @default_interval)
+    ttl = Keyword.get(arg, :ttl_seconds, @default_ttl)
 
     receive do
     after

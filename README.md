@@ -175,9 +175,8 @@ channel.ex
 ```elixir
 defmodule MyApp.Channel do
   use Phoenix.Channel
-  use DVR.AbsintheChannel
 
-  defdelegate handle_in(event, payload, socket), to: Absinthe.Phoenix.Channel
+  defdelegate handle_in(event, payload, socket), to: DVR.AbsintheChannel
   defdelegate join(channel, message, socket), to: Absinthe.Phoenix.Channel
 end
 ```
