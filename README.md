@@ -82,8 +82,123 @@ id # last seen message id
 
 ### With Phoenix
 
-*coming soon*
+In `channel.ex`
+
+```elixir
+defmodule MyApp.Channel do
+  use Phoenix.Channel
+  use DVR.Channel
+  require Logger
+
+  intercept ["new_msg"]
+
+  ...
+
+  def handle_out("new_msg", msg, socket) do
+    case DVR.record(msg, [socket.topic]) do
+      {:ok, id} ->
+        push socket, "new_msg", Map.merge(msg, %{replay_id: id})
+      err ->
+        Logger.error("Unable to add replayId to message", error: err)
+        push socket, "new_msg", msg
+    end
+
+    {:noreply, socket}
+  end
+end
+```
+
+In your client:
+
+```js
+...
+
+let replayId // recovered from storage somewhere
+
+channel.on("new_msg", payload => {
+  lastMessageId = payload.replay_id
+})
+
+channel.join()
+  .receive("ok", resp => {
+    console.log("Joined successfully", resp)
+    channel.push('replay', { replayId })
+  })
+  .receive("error", resp => { console.log("Unable to join", resp) })
+```
 
 ### With Absinthe
 
-*coming soon*
+Make sure to add the `replayId` to your schema for the subscription type that you are publishing. Then you can record the message when publishing:
+
+```elixir
+{:ok, id} = DVR.record(msg, topics)
+Absinthe.Subscription.publish(MyApp.Endpoint, Map.put(msg, :replay_id, id), topics)
+```
+
+For now, you have to customize the entire set of channel / socket modules, since there's not yet a way to decorate the default channel:
+
+endpoint.ex
+
+```elixir
+defmodule MyApp.Endpoint do
+  use Phoenix.Endpoint, otp_app: :web
+  use Absinthe.Phoenix.Endpoint
+
+  socket("/socket", MyApp.UserSocket)
+  ...
+```
+
+socket.ex
+
+```elixir
+defmodule MyApp.UserSocket do
+  use Phoenix.Socket
+  transport(:websocket, Phoenix.Transports.WebSocket)
+
+  def connect(_payload, socket), do: {:ok, socket}
+  def id(_socket), do: nil
+
+  channel(
+    "__absinthe__:*",
+    MyApp.AbsintheChannel,
+    assigns: %{__absinthe_schema__: MyApp.Schema}
+  )
+
+  defdelegate put_opts(socket, opts), to: Absinthe.Phoenix.Socket
+  defdelegate put_schema(socket, schema), to: Absinthe.Phoenix.Socket
+end
+```
+
+channel.ex
+
+```elixir
+defmodule MyApp.Channel do
+  use Phoenix.Channel
+  use DVR.AbsintheChannel
+
+  defdelegate handle_in(event, payload, socket), to: Absinthe.Phoenix.Channel
+  defdelegate join(channel, message, socket), to: Absinthe.Phoenix.Channel
+end
+```
+
+In your client:
+
+```js
+...
+
+let replayId // recovered from storage somewhere
+
+channel.on("new_msg", payload => {
+  // take the replayId from the relevant place in your schema
+  replayId = payload.replayId
+})
+
+channel.join()
+  .receive("ok", resp => {
+    console.log("Joined successfully", resp)
+    const subscriptionId = resp.body.payload.response.subscriptionId
+    channel.push('replay', { replayId, subscriptionId })
+  })
+  .receive("error", resp => { console.log("Unable to join", resp) })
+```

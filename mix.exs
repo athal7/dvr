@@ -37,7 +37,10 @@ defmodule DVR.MixProject do
     [
       {:mnesiac, "~> 0.2.0"},
       {:ex_doc, "~> 0.19", only: :dev, runtime: false},
-      {:dialyxir, "~> 1.0.0-rc.3", only: [:dev, :test], runtime: false}
+      {:dialyxir, "~> 1.0.0-rc.3", only: [:dev, :test], runtime: false},
+      {:phoenix, "~> 1.3.0", optional: true},
+      {:absinthe, "~> 1.4.0", optional: true},
+      {:absinthe_phoenix, "~> 1.4.0", optional: true}
     ]
   end
 end
