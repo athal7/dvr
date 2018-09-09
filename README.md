@@ -3,6 +3,7 @@
 *Record and replay your Phoenix channels*
 
 ![Hex.pm](https://img.shields.io/hexpm/v/dvr.svg)
+![CircleCI Master](https://img.shields.io/circleci/project/github/athal7/dvr/master.svg)
 
 **Documentation can be found at [https://hexdocs.pm/dvr](https://hexdocs.pm/dvr).**
 
