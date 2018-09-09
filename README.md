@@ -1,6 +1,10 @@
 # DVR
 
-**Record and replay your Phoenix channels**
+*Record and replay your Phoenix channels*
+
+![Hex.pm](https://img.shields.io/hexpm/v/dvr.svg)
+
+**Documentation can be found at [https://hexdocs.pm/dvr](https://hexdocs.pm/dvr).**
 
 DVR gives you the ability to resend channel messages from your Phoenix server, based on a client-supplied id for the last seen message. Unlike the [example mentioned in the Phoenix Docs](https://hexdocs.pm/phoenix/channels.html#resending-server-messages), this implementation utilizes [mnesia](http://erlang.org/doc/man/mnesia.html), as opposed to an external database backend.
 
