@@ -19,8 +19,8 @@ defmodule DVR.Channel do
           end
 
           # TODO utilize stream
-          for message <- DVR.replay(replay_id, [socket.topic]) do
-            Phoenix.Channel.push(socket, socket.topic, %{result: message.payload})
+          for {message, _} <- DVR.replay(replay_id, [socket.topic]) do
+            Phoenix.Channel.push(socket, socket.topic, %{result: message})
           end
 
           {:noreply, socket}

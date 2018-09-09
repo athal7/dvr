@@ -20,14 +20,14 @@ defmodule DVR.AbsintheChannel do
         })
     end
 
-    topics = doc_id_topics(doc_id, socket)
+    doc_topics = doc_id_topics(doc_id, socket)
 
     # TODO utilize stream
-    for message <- DVR.replay(replay_id) do
-      matched_topics = MapSet.intersection(MapSet.new(topics), MapSet.new(message.topics))
+    for {payload, topics} <- DVR.replay(replay_id) do
+      matched_topics = MapSet.intersection(MapSet.new(doc_topics), MapSet.new(topics))
 
       for doc <- docs(socket, matched_topics, doc_id) do
-        {:ok, %{result: data}, _} = resolve(message.payload, doc)
+        {:ok, %{result: data}, _} = resolve(payload, doc)
         Phoenix.Channel.push(socket, "subscription:data", %{result: data})
       end
     end
@@ -54,7 +54,7 @@ defmodule DVR.AbsintheChannel do
     end)
   end
 
-  defp resolve(%{payload: payload}, %Absinthe.Blueprint{} = doc) do
+  defp resolve(payload, %Absinthe.Blueprint{} = doc) do
     doc.execution.root_value
     |> put_in(payload)
     |> Absinthe.Pipeline.run(@pipeline)

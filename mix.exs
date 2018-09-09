@@ -4,7 +4,7 @@ defmodule DVR.MixProject do
   def project do
     [
       app: :dvr,
-      version: "0.1.3",
+      version: "0.1.4",
       elixir: "~> 1.6",
       docs: [main: "readme", extras: ["README.md"]],
       package: package(),
