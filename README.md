@@ -88,19 +88,17 @@ In `channel.ex`
 defmodule MyApp.Channel do
   use Phoenix.Channel
   use DVR.Channel
-  require Logger
-
-  intercept ["new_msg"]
 
   ...
 
-  def handle_out("new_msg", msg, socket) do
+  def handle_in("new_msg", msg, socket) do
     case DVR.record(msg, [socket.topic]) do
-      {:ok, id} ->
-        push socket, "new_msg", Map.merge(msg, %{replay_id: id})
+      {:ok, replay_id} ->
+        broadcast!(socket, socket.topic, Map.put(msg, :replay_id, replay_id))
+
       err ->
         Logger.error("Unable to add replayId to message", error: err)
-        push socket, "new_msg", msg
+        push(socket, socket.topic, msg)
     end
 
     {:noreply, socket}

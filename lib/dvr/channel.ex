@@ -6,22 +6,24 @@ defmodule DVR.Channel do
   defmacro __using__(_opts) do
     if Code.ensure_loaded?(Phoenix.Channel) do
       quote do
-        def handle_in("replay", %{"replayId" => replay_id}, socket) do
+        def handle_in("replay", %{"replay_id" => replay_id}, socket) do
           case DVR.search(replay_id) do
             {:ok, _} ->
               nil
 
             {:not_found, earliest_id} ->
               Phoenix.Channel.push(socket, "replay:warning", %{
-                "requestedReplayId" => replay_id,
-                "earliestReplayId" => earliest_id
+                "requested_replay_id" => replay_id,
+                "earliest_replay_id" => earliest_id
               })
           end
 
-          # TODO utilize stream
-          for {message, _} <- DVR.replay(replay_id, [socket.topic]) do
-            Phoenix.Channel.push(socket, socket.topic, %{result: message})
-          end
+          replay_id
+          |> DVR.replay()
+          |> Stream.each(fn {message, _} ->
+            Phoenix.Channel.push(socket, socket.topic, message)
+          end)
+          |> Stream.run()
 
           {:noreply, socket}
         end

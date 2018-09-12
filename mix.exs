@@ -4,8 +4,9 @@ defmodule DVR.MixProject do
   def project do
     [
       app: :dvr,
-      version: "0.1.4",
+      version: "0.1.5",
       elixir: "~> 1.6",
+      elixirc_paths: elixirc_paths(Mix.env()),
       docs: [main: "readme", extras: ["README.md"]],
       package: package(),
       start_permanent: Mix.env() == :prod,
@@ -26,6 +27,9 @@ defmodule DVR.MixProject do
       }
     ]
   end
+
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
 
   def application do
     [
