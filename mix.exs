@@ -10,7 +10,8 @@ defmodule DVR.MixProject do
       docs: [main: "readme", extras: ["README.md"]],
       package: package(),
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      dialyzer: [plt_add_deps: :transitive]
     ]
   end
 
