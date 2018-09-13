@@ -1,12 +1,5 @@
 defmodule DVR.DvrTest do
-  use ExUnit.Case
-
-  setup do
-    :mnesia.clear_table(:dvr)
-    DVR.Store.init_store()
-    DVR.Store.copy_store()
-    :ok
-  end
+  use DVR.DVRCase
 
   test "can replay messages" do
     pre_id = DVR.calculate_id()

@@ -1,20 +1,10 @@
 defmodule DVR.PhoenixChannelTest do
-  use ExUnit.Case
+  use DVR.DVRCase
   use Phoenix.ChannelTest
 
   @endpoint DVR.Phoenix.TestEndpoint
 
-  setup_all do
-    {:ok, _} = DVR.Phoenix.TestEndpoint.start_link()
-
-    :ok
-  end
-
   setup do
-    :mnesia.clear_table(:dvr)
-    DVR.Store.init_store()
-    DVR.Store.copy_store()
-
     {:ok, _, socket} =
       socket("asdf", [])
       |> subscribe_and_join(DVR.Phoenix.TestChannel, "phoenix")

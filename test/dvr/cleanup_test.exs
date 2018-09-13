@@ -1,12 +1,5 @@
 defmodule DVR.CleanupTest do
-  use ExUnit.Case
-
-  setup do
-    :mnesia.clear_table(:dvr)
-    DVR.Store.init_store()
-    DVR.Store.copy_store()
-    :ok
-  end
+  use DVR.DVRCase
 
   test "cleans up records older than the ttl" do
     ttl = 60 * 60
