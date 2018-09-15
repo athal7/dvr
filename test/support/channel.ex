@@ -21,3 +21,10 @@ defmodule DVR.Phoenix.TestChannel do
     {:noreply, socket}
   end
 end
+
+defmodule DVR.Absinthe.TestChannel do
+  use Phoenix.Channel
+
+  defdelegate handle_in(event, payload, socket), to: DVR.AbsintheChannel
+  defdelegate join(channel, message, socket), to: Absinthe.Phoenix.Channel
+end
