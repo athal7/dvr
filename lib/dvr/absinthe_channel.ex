@@ -23,15 +23,17 @@ defmodule DVR.AbsintheChannel do
 
       doc_topics = doc_id_topics(doc_id, socket)
 
-      # TODO utilize stream
-      for {payload, topics} <- DVR.replay(replay_id) do
+      replay_id
+      |> DVR.replay()
+      |> Stream.each(fn {payload, topics} ->
         matched_topics = MapSet.intersection(MapSet.new(doc_topics), MapSet.new(topics))
 
         for doc <- docs(socket, matched_topics, doc_id) do
           {:ok, %{result: data}, _} = resolve(payload, doc)
           Phoenix.Channel.push(socket, "subscription:data", %{result: data})
         end
-      end
+      end)
+      |> Stream.run()
 
       {:noreply, socket}
     end

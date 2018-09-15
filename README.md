@@ -127,13 +127,29 @@ channel.join()
 
 ### With Absinthe
 
-Make sure to add the `replayId` to your schema for the subscription type that you are publishing. Then you can record the message when publishing:
+Make sure to add the `replayId` to your schema for the subscription type that you are publishing. Then you can record the message when resolving:
 
 ```elixir
-replay_id = DVR.calculate_id()
-payload = Map.put(msg, :replay_id, replay_id)
-{:ok, _} = DVR.record(payload, topics, replay_id)
-Absinthe.Subscription.publish(MyApp.Endpoint, payload, topics)
+object :foo do
+  field(:bar, :string)
+  field(:baz, :string)
+end
+
+object :foo_update do
+  field(:foo, :foo)
+  field(:replayId, :integer)
+end
+
+subscription do
+  field :foo_updates, :foo_update do
+    config(fn _, _ -> {:ok, topic: "*"} end)
+
+    resolve(fn root, _, _ ->
+      {:ok, replay_id} = DVR.record(root, [foo_updates: "*"])
+      {:ok, Map.put(root, :replay_id, replay_id)}
+    end)
+  end
+end
 ```
 
 For now, you have to customize the entire set of channel / socket modules, since there's not yet a way to decorate the default channel:
