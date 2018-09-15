@@ -17,7 +17,7 @@ The package can be installed by adding `dvr` to your list of dependencies in `mi
 ```elixir
 def deps do
   [
-    {:dvr, "~> 0.1.0"}
+    {:dvr, "~> 1.0.0"}
   ]
 end
 ```
