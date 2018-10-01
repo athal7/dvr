@@ -6,8 +6,8 @@ defmodule DVR.Cleanup do
   use Task
   require Logger
 
-  @default_interval 60
-  @default_ttl 60 * 60
+  @default_interval 60 * 1000 # 60 seconds
+  @default_ttl 60 * 60 # 1 hour
 
   def start_link(arg) do
     Task.start_link(__MODULE__, :run, arg)
@@ -16,7 +16,7 @@ defmodule DVR.Cleanup do
   def run(), do: run([])
 
   def run(arg) do
-    interval = Keyword.get(arg, :interval_seconds) || @default_interval
+    interval = (Keyword.get(arg, :interval_seconds) * 1000) || @default_interval
     ttl = Keyword.get(arg, :ttl_seconds) || @default_ttl
 
     receive do
