@@ -16,12 +16,12 @@ defmodule DVR.Cleanup do
   def run(), do: run([])
 
   def run(arg) do
-    interval = (Keyword.get(arg, :interval_seconds) || @default_interval) * 1000
+    interval = Keyword.get(arg, :interval_seconds) || @default_interval
     ttl = Keyword.get(arg, :ttl_seconds) || @default_ttl
 
     receive do
     after
-      interval ->
+      (interval * 1000) ->
         count = cleanup(ttl)
         Logger.debug("Cleaned up expired subscription messages", count: count)
         run(interval_seconds: interval, ttl_seconds: ttl)
