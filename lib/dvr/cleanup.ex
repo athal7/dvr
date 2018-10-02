@@ -10,13 +10,13 @@ defmodule DVR.Cleanup do
   @default_ttl 60 * 60
 
   def start_link(arg) do
-    Task.start_link(__MODULE__, :run, arg)
+    Task.start_link(__MODULE__, :run, [arg])
   end
 
   def run(), do: run([])
 
   def run(arg) do
-    interval = Keyword.get(arg, :interval_seconds) || @default_interval
+    interval = (Keyword.get(arg, :interval_seconds) || @default_interval) * 1000
     ttl = Keyword.get(arg, :ttl_seconds) || @default_ttl
 
     receive do
