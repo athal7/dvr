@@ -6,7 +6,7 @@ defmodule DVR.PhoenixChannelTest do
 
   setup do
     {:ok, _, socket} =
-      socket("asdf", [])
+      socket(DVR.Phoenix.TestSocket, [], %{})
       |> subscribe_and_join(DVR.Phoenix.TestChannel, "phoenix")
 
     {:ok, socket: socket}

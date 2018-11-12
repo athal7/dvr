@@ -161,7 +161,7 @@ defmodule MyApp.Endpoint do
   use Phoenix.Endpoint, otp_app: :web
   use Absinthe.Phoenix.Endpoint
 
-  socket("/socket", MyApp.UserSocket)
+  socket("/socket", MyApp.UserSocket, websocket: true)
   ...
 ```
 
@@ -170,7 +170,6 @@ socket.ex
 ```elixir
 defmodule MyApp.UserSocket do
   use Phoenix.Socket
-  transport(:websocket, Phoenix.Transports.WebSocket)
 
   def connect(_payload, socket), do: {:ok, socket}
   def id(_socket), do: nil

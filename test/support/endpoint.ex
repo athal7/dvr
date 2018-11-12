@@ -2,7 +2,11 @@ defmodule DVR.Phoenix.TestEndpoint do
   use Phoenix.Endpoint, otp_app: :dvr_phoenix
   use Absinthe.Phoenix.Endpoint
 
-  socket("/socket", DVR.Phoenix.TestSocket)
+  socket(
+    "/socket",
+    DVR.Phoenix.TestSocket,
+    websocket: true
+  )
 
   plug(Plug.RequestId)
   plug(Plug.Logger)
