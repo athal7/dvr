@@ -4,7 +4,7 @@
 
 ![Hex.pm](https://img.shields.io/hexpm/v/dvr.svg)
 ![Hex.pm licence](https://img.shields.io/hexpm/l/dvr.svg)
-![CircleCI Master](https://img.shields.io/circleci/project/github/athal7/dvr/master.svg)
+![Build Status)](https://img.shields.io/github/workflow/status/athal7/dvr/CI/master)
 
 **Documentation can be found at [https://hexdocs.pm/dvr](https://hexdocs.pm/dvr).**
 
