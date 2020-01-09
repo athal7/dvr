@@ -10,6 +10,10 @@ jobs:
       image: elixir:1.9.1-slim
     steps:
     - uses: actions/checkout@v1
+    - name: Install Dependencies
+      run: |
+        mix local.rebar --force
+        mix local.hex --force
     - name: Publish to Hex
       run: |
         mix hex.publish
