@@ -11,7 +11,10 @@ defmodule DVR.MixProject do
       package: package(),
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      dialyzer: [plt_add_deps: :transitive]
+      dialyzer: [
+        plt_file: {:no_warn, "priv/plts/dialyzer.plt"},
+        plt_add_deps: :transitive
+      ]
     ]
   end
 
