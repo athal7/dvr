@@ -1,0 +1,17 @@
+name: Publish to Hex
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: elixir:1.9.1-slim
+    steps:
+    - uses: actions/checkout@v1
+    - name: Publish to Hex
+      run: |
+        mix hex.publish
+      env:
+        HEX_API_KEY: ${{secrets.HEX_API_KEY}}
