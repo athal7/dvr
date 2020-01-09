@@ -17,6 +17,6 @@ jobs:
         mix deps.get
     - name: Publish to Hex
       run: |
-        mix hex.publish
+        mix hex.publish --yes
       env:
         HEX_API_KEY: ${{secrets.HEX_API_KEY}}
