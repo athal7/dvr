@@ -7,9 +7,9 @@ services:
       dockerfile: Dockerfile
       args:
         # Elixir Version: 1.9, 1.10, 1.10.4, ...
-        VARIANT: "1.9"
+        VARIANT: "1.10"
         # Phoenix Version: 1.4.17, 1.5.4, ...
-        PHOENIX_VERSION: "1.4.17"
+        PHOENIX_VERSION: "1.5.4"
         # Node Version: 10, 11, ...
         NODE_VERSION: "10"
 
