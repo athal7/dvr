@@ -4,11 +4,6 @@ defmodule DVR.AbsintheChannel do
   """
 
   if Code.ensure_loaded?(Absinthe.Subscription) do
-    @pipeline [
-      Absinthe.Phase.Document.Execution.Resolution,
-      Absinthe.Phase.Document.Result
-    ]
-
     def handle_in("replay", %{"replayId" => replay_id, "subscriptionId" => doc_id}, socket) do
       case DVR.search(replay_id) do
         {:ok, _} ->
@@ -57,10 +52,31 @@ defmodule DVR.AbsintheChannel do
       end)
     end
 
-    defp resolve(payload, %Absinthe.Blueprint{} = doc) do
-      doc.execution.root_value
-      |> put_in(payload)
-      |> Absinthe.Pipeline.run(@pipeline)
+
+    # From https://github.com/absinthe-graphql/absinthe/blob/master/lib/absinthe/subscription/local.ex#run_docset
+    alias Absinthe.{Phase, Pipeline}
+    defp resolve(payload, doc) do
+      pipeline =
+          doc.initial_phases
+          |> Pipeline.replace(
+            Phase.Telemetry,
+            {Phase.Telemetry, event: [:subscription, :publish, :start]}
+          )
+          |> Pipeline.without(Phase.Subscription.SubscribeSelf)
+          |> Pipeline.insert_before(
+            Phase.Document.Execution.Resolution,
+            {Phase.Document.OverrideRoot, root_value: payload}
+          )
+          |> Pipeline.upto(Phase.Document.Execution.Resolution)
+
+      pipeline = [
+        pipeline,
+        [
+          Absinthe.Phase.Document.Result,
+          {Absinthe.Phase.Telemetry, event: [:subscription, :publish, :stop]}
+        ]
+      ]
+      Absinthe.Pipeline.run(doc.source, pipeline)
     end
   end
 end
