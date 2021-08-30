@@ -1,6 +1,6 @@
 defmodule DVR.AbsintheTest do
   use DVR.DVRCase
-  use Phoenix.ChannelTest
+  import Phoenix.ChannelTest
   use Absinthe.Phoenix.SubscriptionTest, schema: DVR.Absinthe.TestSchema
 
   import Absinthe.Subscription, only: [publish: 3]

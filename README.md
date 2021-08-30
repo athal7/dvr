@@ -17,7 +17,7 @@ The package can be installed by adding `dvr` to your list of dependencies in `mi
 ```elixir
 def deps do
   [
-    {:dvr, "~> 1.0.0"}
+    {:dvr, "~> 1.1.0"}
   ]
 end
 ```
@@ -180,7 +180,7 @@ defmodule MyApp.UserSocket do
     assigns: %{__absinthe_schema__: MyApp.Schema}
   )
 
-  defdelegate put_opts(socket, opts), to: Absinthe.Phoenix.Socket
+  defdelegate put_options(socket, opts), to: Absinthe.Phoenix.Socket
   defdelegate put_schema(socket, schema), to: Absinthe.Phoenix.Socket
 end
 ```

@@ -1,6 +1,6 @@
 defmodule DVR.PhoenixChannelTest do
   use DVR.DVRCase
-  use Phoenix.ChannelTest
+  import Phoenix.ChannelTest
 
   @endpoint DVR.Phoenix.TestEndpoint
 

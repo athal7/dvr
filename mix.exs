@@ -4,8 +4,8 @@ defmodule DVR.MixProject do
   def project do
     [
       app: :dvr,
-      version: "1.0.4",
-      elixir: "~> 1.6",
+      version: "1.1.0",
+      elixir: "~> 1.10",
       elixirc_paths: elixirc_paths(Mix.env()),
       docs: [main: "readme", extras: ["README.md"]],
       package: package(),
@@ -45,9 +45,10 @@ defmodule DVR.MixProject do
     [
       {:ex_doc, "~> 0.19", only: :dev, runtime: false},
       {:dialyxir, "~> 1.1.0", only: [:dev, :test], runtime: false},
-      {:phoenix, "~> 1.4", optional: true},
-      {:absinthe, "~> 1.4.0", optional: true},
-      {:absinthe_phoenix, "~> 1.4.0", optional: true}
+      {:phoenix, "~> 1.5", optional: true},
+      {:absinthe, "~> 1.5", optional: true},
+      {:absinthe_phoenix, "~> 2.0", optional: true},
+      {:jason, "~> 1.0", only: [:dev, :test]}
     ]
   end
 end
