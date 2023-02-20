@@ -2,7 +2,7 @@ defmodule DVR.Absinthe.TestSchema do
   use Absinthe.Schema
 
   query do
-    # Query type must exist
+    field(:foo, :foo)
   end
 
   object :foo do
