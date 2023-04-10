@@ -44,7 +44,7 @@ defmodule DVR.MixProject do
   defp deps do
     [
       {:ex_doc, "~> 0.19", only: :dev, runtime: false},
-      {:dialyxir, "~> 1.2.0", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.3.0", only: [:dev, :test], runtime: false},
       {:phoenix, "~> 1.5", optional: true},
       {:absinthe, "~> 1.5", optional: true},
       {:absinthe_phoenix, "~> 2.0", optional: true},
