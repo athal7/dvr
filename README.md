@@ -4,7 +4,7 @@
 
 ![Hex.pm](https://img.shields.io/hexpm/v/dvr.svg)
 ![Hex.pm licence](https://img.shields.io/hexpm/l/dvr.svg)
-![Build Status)](https://img.shields.io/github/workflow/status/athal7/dvr/CI/main)
+![Build Status)](https://img.shields.io/github/actions/workflow/status/athal7/dvr/ci.yml?branch=main)
 
 **Documentation can be found at [https://hexdocs.pm/dvr](https://hexdocs.pm/dvr).**
 
