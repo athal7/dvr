@@ -43,7 +43,7 @@ defmodule DVR.AbsintheTest do
     assert %{
              "fooUpdates" => %{
                "foo" => %{"bar" => "corge"},
-               "replayId" => id2
+               "replayId" => _
              }
            } = data
 
@@ -53,14 +53,14 @@ defmodule DVR.AbsintheTest do
     assert %{
              "fooUpdates" => %{
                "foo" => %{"bar" => "corge"},
-               "replayId" => id2
+               "replayId" => _
              }
            } = data
   end
 
   test "resolves with the new doc on replay", %{socket: socket} do
     ref = push_doc(socket, @subscription)
-    assert_reply(ref, :ok, %{subscriptionId: subscription_id})
+    assert_reply(ref, :ok, %{subscriptionId: _subscription_id})
 
     publish(@endpoint, %{foo: %{bar: "qux"}}, foo_updates: "*")
     assert_push("subscription:data", %{result: %{data: data}})
@@ -78,7 +78,7 @@ defmodule DVR.AbsintheTest do
     assert %{
              "fooUpdates" => %{
                "foo" => %{"bar" => "corge"},
-               "replayId" => id2
+               "replayId" => _
              }
            } = data
 
@@ -100,7 +100,7 @@ defmodule DVR.AbsintheTest do
     assert %{
              "fooUpdates" => %{
                "foo" => %{"bar" => "corge", "baz" => "grault"},
-               "replayId" => id2
+               "replayId" => _
              }
            } = data
   end
@@ -120,6 +120,6 @@ defmodule DVR.AbsintheTest do
            } = data
 
     push(socket, "replay", %{"replayId" => 1, "subscriptionId" => subscription_id})
-    assert_push("replay:warning", %{"requestedReplayId" => 1, "earliestReplayId" => id})
+    assert_push("replay:warning", %{"requestedReplayId" => 1, "earliestReplayId" => ^id})
   end
 end

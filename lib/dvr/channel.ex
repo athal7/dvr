@@ -30,7 +30,7 @@ defmodule DVR.Channel do
       end
     else
       require Logger
-      Logger.warn("DVR Channel not configured, Phoenix.Channel module is not available")
+      Logger.warning("DVR Channel not configured, Phoenix.Channel module is not available")
     end
   end
 end

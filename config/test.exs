@@ -1,6 +1,6 @@
-use Mix.Config
+import Config
 
-config :logger, level: :warn
+config :logger, level: :warning
 
 config :dvr_phoenix, DVR.Phoenix.TestEndpoint,
   url: [host: "localhost"],
